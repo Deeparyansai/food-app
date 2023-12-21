@@ -18,6 +18,9 @@ function Navibar() {
           <li  className="nav-item">
            <Link  className="nav-link fs-2" to="/login">Login</Link>
           </li>
+          <li  className="nav-item">
+           <Link  className="nav-link fs-2" to="/createuser">Signup</Link>
+          </li>
          
           
         </ul>
