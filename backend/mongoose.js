@@ -1,23 +1,28 @@
 const mongoose = require('mongoose');
 
-const mongoURI = "mongodb+srv://Deep:deep123@cluster0.meak69q.mongodb.net/deliverymern?retryWrites=true&w=majority"
+const mongoURI = "mongodb+srv://Deep:deep123@cluster0.meak69q.mongodb.net/deliverymern?retryWrites=true&w=majority";
+
 const mongoDB = async () => {
     try {
-        await mongoose.connect(mongoURI , {
-            serverSelectionTimeoutMS: 10000, // Default is 30000 (30 seconds)
-            socketTimeoutMS: 45000, // Default is 30000 (30 seconds)
-        }) ;
+        await mongoose.connect(mongoURI, {
+            serverSelectionTimeoutMS: 10000,
+            socketTimeoutMS: 45000,
+        });
         console.log("connected");
 
-        const fetched_data = mongoose.connection.db.collection("food_items");
-        const data = await fetched_data.find({}).toArray();
+        const foodItemsCollection = mongoose.connection.db.collection("food_items");
+        const foodCategoryCollection = mongoose.connection.db.collection("foodCategory");
 
-        // console.log(data);
-    }
-    catch (err) {
+        const data = await foodItemsCollection.find({}).toArray();
+        const catData = await foodCategoryCollection.find({}).toArray();
+
+        global.food_items = data;
+        global.foodCategory = catData;
+
+        console.log("Data fetched successfully");
+    } catch (err) {
         console.error(err);
     }
 };
-
 
 module.exports = mongoDB;
