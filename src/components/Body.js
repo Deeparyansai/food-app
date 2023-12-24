@@ -28,7 +28,7 @@ export default function Body
             }
             else if (food.size !== size) {
                 await dispatch({ type: "ADD", id: props.foodItem._id, name: props.foodItem.name, price: finalPrice, qty: qty, size: size, img: props.ImgSrc })
-                console.log("Size different so simply ADD one more to the list")
+                //console.log("Size different so simply ADD one more to the list")
                 return
             }
             return
@@ -48,14 +48,15 @@ export default function Body
 
     return (
         //card
+        
         <div>
             <div>
-                <div className="card mt-3" style={{ "width": "18rem", "maxHeight": "360px" }}>
+                <div className="card mt-3" style={{ "width": "16rem", "maxHeight": "360px" }}>
                     <img className="card-img-top" src={props.foodItem.img} alt="..." style={{ height: "200px", objectFit: "fill" }} />
                     < div className="card-body">
                         <h5 className="card-title">{props.foodItem.name}</h5>
 
-                        <div className='container w-100 '>
+                        <div className='container w-100 p-0 ' style={{height : '38px'}}>
                             <select className='m-2 h-100 bg-success rounded' onChange={(e) => setQty(e.target.value)}>
                                 {Array.from(Array(6), (e, i) => {
                                     return (
@@ -68,12 +69,13 @@ export default function Body
                                     return <option key={data} value={data}>{data}</option>
                                 })}
                             </select>
-                            <div className='d-inline h-100 fs-5'>
-                                Rs {finalPrice}/-
+                            <div className='d-inline ms-2 w-20 h-100 fs-5'>
+                            ₹{finalPrice}/-
                             </div>
                         </div>
                         <hr />
-                        <button className='btn btn success justify-center ms-2' onClick={handleAddToCart}>Add To Cart</button>
+                        <button className='btn btn-success justify-center ms-2' style={{ objectFit: "fill" }} onClick={handleAddToCart}>Add To Cart</button>
+
                     </div>
                 </div>
             </div>
