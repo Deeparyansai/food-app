@@ -1,9 +1,16 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCart, useDispatchCart } from '../components/ContextReducer';
+import Badge from 'react-bootstrap/Badge'
+import Modal from '../Modal';
+import Cart from '../views/Cart';
 
 function Navibar() {
   const navigate = useNavigate();
+
+  const [cartView , setCartView] = useState(false);
+  let data = useCart();
 
   const handleLogOut = () => {
     localStorage.removeItem("authToken");
@@ -27,21 +34,28 @@ function Navibar() {
               </li>
               {isAuthenticated &&
                 <li className="nav-item">
-                  <Link className="nav-link active fs-5" to="/">My Orders</Link>
+                  <Link className="nav-link active fs-5" to="/myOrder">My Orders</Link>
                 </li>
               }
             </ul>
 
             {isAuthenticated ?
               <div className='d-flex'>
-                {/* Render additional buttons for authenticated users */}
-                <div className='btn bg-white text-success mx-2'>
-                  MyCart
+              {/* Render "MyCart" button only when data.length is greater than 0 */}
+              {data.length > 0 && (
+                <div className='btn bg-white text-success mx-2' onClick={() => setCartView(true)}>
+                  MyCart {" "}
+                  <Badge pill bg="danger">{data.length}</Badge>
                 </div>
-                <div className='btn bg-white text-danger mx-2' onClick={handleLogOut}>
-                  Logout
-                </div>
+              )}
+            
+              {/* Render the modal when cartView is true */}
+              {cartView && <Modal onClose={() => setCartView(false)}><Cart/></Modal>}
+            
+              <div className='btn bg-white text-danger mx-2' onClick={handleLogOut}>
+                Logout
               </div>
+            </div>
               :
               <div>
                 <Link className="btn bg-white text-success mx-1" to="/login">Login</Link>

@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 
 export default function Login() {
+
   const [credentials, setcredentials] = useState({  email: "", password: "" })
   let navigate = useNavigate();
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:5000/api/loginuser", {
@@ -20,9 +23,9 @@ export default function Login() {
       alert("Enter Valid Credentials");
     }
     if (json.success) {
-      navigate("/");
+      localStorage.setItem("userEmail",credentials.email);
       localStorage.setItem("authToken",json.authToken);
-      console.log(localStorage.getItem("authToken"));
+      navigate("/");
     }
 
 };
@@ -31,6 +34,8 @@ export default function Login() {
   const onChange = (event) => {
     setcredentials({ ...credentials, [event.target.name]: event.target.value })
   }
+
+
   return (
     <>
     <div className='container'>
